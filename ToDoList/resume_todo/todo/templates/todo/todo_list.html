@@ -1,0 +1,25 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+    <ul>
+        {% for todo in todos %}
+            <li{% if todo.completed %} class="completed"{% endif %}>
+                {{ todo.title }}
+                <a href="{% url 'complete_todo' todo.id %}">Mark as Complete</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <form method="POST" action="{% url 'add_todo' %}">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Add a new todo" required>
+        <button type="submit">Add</button>
+    </form>
+    <form method="POST" action="{% url 'delete_completed' %}">
+        {% csrf_token %}
+        <button type="submit">Delete Completed</button>
+    </form>
+    <form method="POST" action="{% url 'delete_all' %}">
+        {% csrf_token %}
+        <button type="submit">Delete All</button>
+    </form>
+{% endblock %}
